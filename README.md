@@ -1,2 +1,2 @@
-# my_blog
+# GitPress
 https://gitpress.io/@erysk
