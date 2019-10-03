@@ -5,8 +5,8 @@ tags: ["Bash"]
 excerpt: ペースト時に暴発しないので便利、副産物でirbも複数行ペーストが可能に！
 ---
 
-Twitterに興味深いツイートが流れていたので実践した。  
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">これ解決した！<a href="https://t.co/PApacG2Vpl">https://t.co/PApacG2Vpl</a><br>☝️を参考に bash をバージョンアップする⤴️<br><br>~/.inputrc (なければ新たに作成)に set enable-bracketed-paste on を追加 _✍<br><br>すると！ターミナルにペースト👉即実行されなくなった😆最and高！<br><br>ヒントくれた <a href="https://twitter.com/ucan_lab?ref_src=twsrc%5Etfw">@ucan_lab</a> さん感謝🙏😭 <a href="https://t.co/EOUMwQg4rB">https://t.co/EOUMwQg4rB</a></p>&mdash; Yuppy 🔛 Rails💎 (@Yuppyhappytoyou) <a href="https://twitter.com/Yuppyhappytoyou/status/1179597940379095040?ref_src=twsrc%5Etfw">October 3, 2019</a></blockquote>
+Twitterに興味深い[ツイート](https://twitter.com/Yuppyhappytoyou/status/1179597940379095040)が流れていたので実践した。  
+(本当はTweetを埋め込みたかったんだけどうまく埋め込めなかった...)
 
 # Bashをアップデートする
 Tweet元に参考記事があるのでそれを参考にしても良いです、多分方法は同じ。  
