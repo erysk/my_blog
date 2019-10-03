@@ -1,3 +1,0 @@
-This is a tweet embedding test.
-
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Bashで複数行ペーストを受け付け、勝手に実行されないようにする <a href="https://t.co/YHc68CMYlH">https://t.co/YHc68CMYlH</a> <a href="https://twitter.com/hashtag/GitPress?src=hash&amp;ref_src=twsrc%5Etfw">#GitPress</a></p>&mdash; erysk - ぶた (@buta_botti) <a href="https://twitter.com/buta_botti/status/1179631872864739328?ref_src=twsrc%5Etfw">October 3, 2019</a></blockquote>
