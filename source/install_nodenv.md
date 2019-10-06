@@ -1,12 +1,12 @@
 ---
-title: nodenvをインストールする
+title: Reactを使ったポートフォリオページをGitHub Pagesにデプロイする
 date: 2019-10-6
-tags: ["node"]
+tags: ["node", "React"]
 excerpt: 備忘録
 ---
 
-nodeをrubyのrbenvと同じ感覚でバージョン管理できるというnodenvをインストールする。
 
+# nodeのバージョン管理ツールnodenvをインストールする。
 ```bash
 brew install nodenv
 ```
@@ -29,4 +29,8 @@ nodenv install 12.10.0
 nodenv global 12.10.0
 nodenv local 12.10.0
 nodenv versions
+```
+# create-react-appコマンドをインストールする
+```bash
+npm install -g create-react-app
 ```
