@@ -449,6 +449,9 @@ Animal.eat = function() {
 let obj = new Animal();
 let speak = obj.speak;
 speak(); // グローバルオブジェクト
+
+let eat = Animal.eat;
+eat(); // グローバルオブジェクト
 ```
 
 一旦おしまい。続きはまた今度。
