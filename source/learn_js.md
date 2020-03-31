@@ -163,9 +163,54 @@ print square.area # 100
 
 > `get`構文は、オブジェクトのプロパティを関数に結びつけ、プロパティが参照された時に関数が呼び出されるようにします。
 
-まぁ当然ながら「プロパティ」や「関数」という概念すら雰囲気でやってきたのでよくわかっていない。
+まぁ当然ながら「プロパティ」や「関数」という概念すら雰囲気でやってきたのでよくわかっていないのでそこから
 
-例のごとくサンプルをRubyに書き換えて咀嚼。
+プロパティ
+
+> JavaScript のオブジェクトは、自身に関連付けられたプロパティを持ちます。オブジェクトのプロパティは、オブジェクトに関連付けられている変数と捉えることができます。オブジェクトのプロパティは、オブジェクトに属するものという点を除けば、基本的に通常の JavaScript 変数と同じようなものです。
+
+Rubyでいうインスタンス変数みたいなものかな。
+
+```javascript
+class Sample {
+    constructor(){
+        this.foo = "Hello";
+    }
+}
+
+let obj = new Sample;
+console.log(obj.foo);
+// Hello
+```
+
+```javascript
+let obj = {
+    foo : "Hello"
+};
+console.log(obj.foo);
+// Hello
+```
+
+```ruby
+class Sample
+  def initialize
+    @foo = "Hello"
+  end
+  
+  attr_reader :foo # Rubyだと呼び出しのためのメソッド定義が必要
+end
+
+print Sample.new.foo
+# Hello
+```
+```ruby
+obj = Class.new
+obj.instance_variable_set('@foo', "Hello")
+print obj.instance_variable_get('@foo')
+# Hello
+```
+
+で、ゲッターの話に戻るけど、例のごとくサンプルをRubyに書き換えて咀嚼。
 
 ```javascript
 const obj = {
@@ -203,6 +248,8 @@ print obj.latest
 ```
 
 こんな感じかな。`get`はやっぱりRubyのメソッドと同じような扱いでいいんだろうな。
+
+ただプロパティーが参照された時に呼ばれるっというのがしっくりきてなくてひっかかるなぁ。
 
 ### セッター
 
@@ -358,5 +405,23 @@ print Point.distance(p1, p2) # 7.0710678118654755
 `Math.hypot(dx, dy)`のところとか全く同じものが使えるの面白いですね。
 
 最初に睨んだ通り、静的メソッドはRubyのクラスメソッドみたいなものでしたね。
+
+### プロトタイプと静的メソッドによるボクシング
+
+ボクシングっていうのがよくわからなかったので調べた。
+
+Javascriptにはオブジェクト型とプリミティブ型の2種類があるらしい。
+
+プリミティブ型は全6種類
+- '文字列'
+- 3.14
+- true
+- Symbol()
+- null
+- undefined
+
+これらはメソッドやプロパティを持たない。
+
+対してRubyは全てがオブジェクトであり、全てのオブジェクトはメソッドを持っているので馴染みづらいな。
 
 一旦おしまい。続きはまた今度。
