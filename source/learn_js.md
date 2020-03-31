@@ -61,7 +61,7 @@ Rubyでいうところの`initialize`メソッドのことかな？
 各クラスに1つしか定義できず、2回以上定義されると`SyntaxError`を発生させる。
 
 ```javascript
-class Name{
+class Name {
     constructor(){}
     constructor(){}
 }
@@ -79,7 +79,7 @@ end
 Rubyは何度でも定義できるのでちょっと差異があるけど、同じようなものという認識でいていいかな。
 
 ```javascript
-class Name{
+class Name {
     constructor(foo){console.log(foo)}
 }
 new Name('Hello Javascript')
@@ -176,7 +176,7 @@ const obj = {
     }
     return this.log[this.log.length - 1];
   }
-}
+};
 
 console.log(obj.latest);
 // expected output: "c"
@@ -216,7 +216,7 @@ const language = {
     this.log.push(name);
   },
   log: []
-}
+};
 
 language.current = 'EN';
 language.current = 'FA';
@@ -251,9 +251,13 @@ print language.log
 
 話は戻ってJavascriptのゲッターとメソッドの違いを理解しないといけない。
 
-ゲッターはRubyでいうメソッドのようなもの、処理の戻り値が返ってくる。
+ゲッターはRubyのメソッド呼び出しっぽく`()`を省略して呼べる。
 
-逆にJavascriptのメソッドをRubyのような形で呼び出すと、関数が返ってくるみたい。
+メソッドはRubyっぽく呼び出すと、関数がそのまま返ってくる。
+
+ちゃんと後ろに`()`をつけないと処理が行われない。
+
+って感じかなぁ...。単に呼び出し方がちょっと違うだけなのかもしれない。
 
 ```javascript
 class Sample {
@@ -268,9 +272,28 @@ obj.method;
 // ƒ method() {
 //     console.log("Hello Javascript")
 // }
+
+obj.method();
+// Hello Javascript
 ```
 
-いまいちよくわからないけど、こういうもんなのかな。
+現にゲッターのサンプルは`get`使わなくても
+
+```javascript
+const obj = {
+  log: ['a', 'b', 'c'],
+  latest() {
+    if (this.log.length == 0) {
+      return undefined;
+    }
+    return this.log[this.log.length - 1];
+  }
+};
+
+console.log(obj.latest()); // c
+```
+
+で期待した値を出力できるしなぁ...。
 
 ### 静的メソッド
 
