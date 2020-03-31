@@ -185,14 +185,17 @@ console.log(obj.latest);
 ```ruby
 obj = Class.new do
   @log = ['a', 'b', 'c']
+
   class << self
+
     attr_reader :log
+
     def latest
       return if log.size == 0
       
       log[log.size - 1]
     end
-   end
+  end
 end
 
 print obj.latest
@@ -225,8 +228,11 @@ console.log(language.log);
 ```ruby
 language = Class.new do
   @log = []
+
   class << self
+  
     attr_reader :log
+
     def current=(name)
       @log << name
     end
@@ -301,11 +307,12 @@ console.log(Point.distance(p1, p2)); // 7.0710678118654755
 
 ```ruby
 class Point
-  attr_reader :x, :y
   def initialize(x, y)
     @x = x
     @y = y
   end
+  
+  attr_reader :x, :y
 
   class << self
     def distance(a, b)
@@ -319,8 +326,8 @@ end
 
 p1 = Point.new(5, 5)
 p2 = Point.new(10, 10)
-p1.distance # NoMethodError
-p2.distance # NoMethodError
+# p1.distance # NoMethodError
+# p2.distance # NoMethodError
 
 print Point.distance(p1, p2) # 7.0710678118654755
 ```
