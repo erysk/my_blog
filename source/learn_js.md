@@ -413,15 +413,42 @@ print Point.distance(p1, p2) # 7.0710678118654755
 Javascriptにはオブジェクト型とプリミティブ型の2種類があるらしい。
 
 プリミティブ型は全6種類
-- '文字列'
-- 3.14
-- true
-- Symbol()
-- null
-- undefined
+- 文字列(`'文字列'`)
+- 数値(`3.14`)
+- 真偽地(`true`)
+- シンボル(`Symbol()`)
+- Null値(`null`)
+- 未定義(`undefined`)
 
 これらはメソッドやプロパティを持たない。
 
 対してRubyは全てがオブジェクトであり、全てのオブジェクトはメソッドを持っているので馴染みづらいな。
+
+で、ボクシングというのはこれらプリミティブ型をオブジェクト型に変換してくれることを指すみたい。
+
+ボクシングすることでオブジェクト型のように扱うことができ、メソッドやプロパティーを持たせることができる。
+
+で、話は戻ってプロトタイプと静的メソッドによるボクシングの話になるが、クラスを書くときのStrictモードでは、
+このボクシングが自動で行われないみたい。
+
+なので、`this`の値が`undefined`の場合、メソッド内でも`undefined`のままらしい。
+
+とりあえずサンプル
+
+```javascript
+function Animal() { }
+
+Animal.prototype.speak = function() {
+  return this;
+}
+
+Animal.eat = function() {
+  return this;
+}
+
+let obj = new Animal();
+let speak = obj.speak;
+speak(); // グローバルオブジェクト
+```
 
 一旦おしまい。続きはまた今度。
