@@ -146,7 +146,7 @@ class Rectangle
   end
 end
 
-square = Rectangle.new(10, 10);
+square = Rectangle.new(10, 10)
 
 print square.area # 100
 ```
@@ -238,7 +238,7 @@ const myObject = {
 
 オブジェクト定義の中に直接関数定義した場合の`this`。
 
-Javascriptちょっとわかるかたならすぐにわかると思うけど、これはSyntaxErrorだった。
+Javascriptちょっとわかる人ならすぐにわかると思うけど、これはSyntaxErrorだった。
 
 オブジェクト定義の中に関数は直接定義できないみたい。
 
@@ -718,11 +718,11 @@ function Animal() { }
 
 Animal.prototype.speak = function() {
   return this;
-}
+};
 
 Animal.eat = function() {
   return this;
-}
+};
 
 let obj = new Animal();
 let speak = obj.speak;
@@ -741,11 +741,11 @@ function Animal() { }
 
 Animal.prototype.speak = function() {
   return this;
-}
+};
 
 Animal.eat = function() {
   return this;
-}
+};
 
 let obj = new Animal();
 let speak = obj.speak;
