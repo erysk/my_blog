@@ -31,6 +31,24 @@ Javascriptって関数以外にメソッドも定義できるの？くらい何�
 
 クラスを用意するにはクラス宣言とクラス式の2つの定義方法があるみたい。
 
+```javascript
+// クラス宣言
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+
+// クラス式
+let Rectangle = class {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+};
+```
+
 Rubyでいうところの以下みたいなものだろうか。
 
 ```ruby
