@@ -457,14 +457,6 @@ console.log(obj.foo);
 // Hello
 ```
 
-```javascript
-let obj = {
-    foo : "Hello"
-};
-console.log(obj.foo);
-// Hello
-```
-
 ```ruby
 class Sample
   def initialize
@@ -477,6 +469,15 @@ end
 print Sample.new.foo
 # Hello
 ```
+
+```javascript
+let obj = {
+    foo : "Hello"
+};
+console.log(obj.foo);
+// Hello
+```
+
 ```ruby
 obj = Class.new
 obj.instance_variable_set('@foo', "Hello")
