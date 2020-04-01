@@ -9,9 +9,13 @@ Rubyしか書けないし、Rubyしか書いてこなかったので、
 それ以外の言語も触れるようになりたいなと思って、
 リファレンス等を見ながら何となくでやってたところをしっかり理解しようという意図。
 
+学習しながら書き足しているのでメモみたいなもの。
+
+あまり参考にしないほうがいいかもしれない。
+
 というか今までJavascriptよくわかってないのによく業務こなせてたな...。
 
-雰囲気でコード書いてるのでウンコード量産してそう、すまん。
+雰囲気でコード書いてたのでウンコード量産してそう、すまん。
 
 # クラス
 
@@ -153,17 +157,287 @@ print square.area # 100
 
 `this`をどう解釈すればいいのかわからない、Rubyの`self`ではなさそう...。
 
-リファレンスに[メソッド定義](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Method_definitions)を参照するように書いてあるので見てみる。
+### thisってなんだ
 
-...省略形のメソッド定義構文が出てきた。省略前もよくわかってないのに理解できない...。
+ちょっと脱線するけど、`this`がよくわからないので調べてみる。
 
-ページ内に`getter`と`setter`のリンクがあったので、Rubyに書き換えた時の疑問を解消すべくそこを確認してみる。
+`this`って使われるタイミングで中身が左右されるみたいなのをみたことがある。
+
+1. メソッド呼び出しパターン
+2. 関数呼び出しパターン
+3. コンストラクタ呼び出しパターン
+4. apply,call呼び出しパターン
+
+#### メソッド呼び出しパターン
+
+メソッドの中で使われる`this`のパターン。
+
+```javascript
+const myObject = {
+    value: 10,
+    output: function() {
+        console.log(this.value);
+    }
+};
+
+myObject.output(); // 10
+```
+
+このサンプルはさっきまでの学習で知ったメソッドの定義と少し違うな...。
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value);
+    }
+};
+
+myObject.output(); // 10
+```
+
+これでも期待した値が出力できるのでSyntaxSugarなのかな。
+
+後者が前者の簡略構文っぽい。
+
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Method_definitions
+
+結果から見るに、メソッド内の`this`はそのメソッドが定義されているオブジェクト自身を参照するみたい。
+
+#### 関数呼び出しパターン
+
+関数の中の`this`はグローバルオブジェクトを参照するみたい。
+
+グローバルオブジェクトのプロパティーに値をセットするとグローバル変数になるとか。
+
+Javascriptは変数のスコープやアクセスの種類も覚えるのが難しそうだ。
+
+```javascript
+function output(){
+    console.log(this); // グローバルオブジェクト
+    this.value = 1;
+    console.log(this.value); // 1
+};
+output();
+
+console.log(this.value); // 1
+console.log(value); // 1
+```
+
+ここでJavascriptできない僕が気になったのが
+
+```javascript
+const myObject = {
+    value: 10,
+    function output() {
+        console.log(this.value)
+    }
+    output();
+};
+```
+
+オブジェクト型の中で関数定義さてた場合の`this`。
+
+Javascriptちょっとわかるかたならすぐにわかると思うけど、これはSyntaxErrorだった。
+
+オブジェクト型の中に関数は定義できないみたい。
+
+ただし...
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value); // 10
+        
+        function output(){
+            console.log(this.value); // undefined
+            this.value = 1;
+            console.log(this.value); // 1
+        }
+        output();
+    }
+};
+
+myObject.output();
+console.log(value); // 1
+```
+
+みたいなオブジェクト型の中のメソッドの中には関数を定義できる。
+
+関数の中の`this`はたとえそれがオブジェクト型の中のメソッドの中であってもグローバルオブジェクトを参照するみたい。
+
+難しいなぁ...。
+
+もし、オブジェクト型のメソッド内の関数でオブジェクト自体を参照したい場合は、オブジェクトを参照している時点の`this`を変数に入れて持っておくことが有効みたい。
+
+その際によく使われる変数名が`self`,`that`,`_this`らしい。
+
+`seif`はブラウザ上だと`window.self`を指すらしくて、それを上書きしてしまうのはどうなのかなという気もしないでもない。
+
+とはいえ最も使われる変数名は`self`みたいなのでそれに合わせたほうが良さそう。
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value); // 10
+        const self = this;
+        function output(){
+            console.log(self.value); // 10
+        }
+        output();
+    }
+};
+
+myObject.output();
+console.log(this.value); // undefined
+```
+
+ちなみに関数の定義は他にもアロー関数というものがあって、その中で使われる`this`は関数呼び出しのパターンに当てはまらないみたい。
+
+アロー関数の中の`this`はその親の`this`と等価みたい。
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value); // 10
+        output = () => {
+            console.log(this.value); // 10
+        };
+        output();
+    }
+};
+
+myObject.output();
+console.log(this.value); // undefined
+```
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value); // 10
+        getValue = () => { return this.value };
+        function output(value) {
+            console.log(value);
+        };
+        output(getValue()); // 10
+    }
+};
+
+myObject.output();
+```
+
+```javascript
+const myObject = {
+    value: 10,
+    output() {
+        console.log(this.value); // 10
+        function output() {
+            getValue = () => { return this.value };
+            console.log(getValue()); // undefined
+        };
+        output();
+    }
+};
+
+myObject.output();
+```
+
+アロー関数の`this`は定義された場所から見て親の`this`と同じものを参照するみたい。
+
+実行された場所は関係ない。
+
+アロー関数は構文も含めてちょっと難しいな...。
+
+#### コンストラクタ呼び出しパターン
+
+よくわからないのでまずはサンプルから
+
+```javascript
+function MyObject(value) {
+  this.value = value;
+  this.increment = function() {
+    this.value++;
+  };
+}
+let myObject = new MyObject(0);
+console.log(myObject.value); // 0
+
+myObject.increment();
+console.log(myObject.value); // 1
+```
+
+...なんだこれは、Javascriptはクラス以外も`new`できるのか。
+
+```javascript
+class MyObject {
+    constructor(value) {
+        this.value = value;
+        this.increment = function() {
+          this.value++;
+        };
+    }
+}
+let myObject = new MyObject(0);
+console.log(myObject.value); // 0
+
+myObject.increment();
+console.log(myObject.value); // 1
+```
+
+これと等価っぽい。わからんけど。等価だと言ってくれ。
+
+Javascript...わけがわからないな...。
+
+関数定義であってもインスタンス化すると関数定義内の`this`はインスタンス化された関数自身を指すようになるみたい。
+
+#### apply,call呼び出しパターン
+
+`this`はこれを参照してね、というのを第一引数で指定してメソッドを実行できるものみたい。
+
+```javascript
+let myObject = {
+  value: 1,
+  output: function() {
+    console.log(this.value);
+  }
+};
+let yourObject = {
+  value: 3
+};
+
+myObject.output(); // 1
+
+myObject.output.apply(yourObject); // 3
+myObject.output.call(yourObject); // 3
+```
+
+関数に対しては使えないのかな...？
+
+```javascript
+const myObject = {
+  value: 1
+};
+
+function output(){
+    console.log(this.value);
+}
+
+output.call(myObject) // 1
+```
+
+使えた。ふーん便利。
+
+`apply`と`call`の違いは第2引数以降の渡し方で、`apply`は配列で第2引数に丸ごと渡して、`call`は第2引数以降をそれぞれ渡すみたい。
 
 ### ゲッター
 
 > `get`構文は、オブジェクトのプロパティを関数に結びつけ、プロパティが参照された時に関数が呼び出されるようにします。
 
-まぁ当然ながら「プロパティ」や「関数」という概念すら雰囲気でやってきたのでよくわかっていないのでそこから
+まぁ当然(？)ながら「プロパティ」という概念すら雰囲気でやってきたのでよくわかっていないからそこから
 
 プロパティ
 
@@ -247,9 +521,11 @@ print obj.latest
 # expected output: "c"
 ```
 
-こんな感じかな。`get`はやっぱりRubyのメソッドと同じような扱いでいいんだろうな。
+こんな感じかな。
 
-ただプロパティーが参照された時に呼ばれるっというのがしっくりきてなくてひっかかるなぁ。
+ゲッターとメソッドとの違いがいまいちよくわからない。
+
+頭に`get`をつけることで、呼び出し元で`()`を省略できますよってだけなんだろうか。
 
 ### セッター
 
@@ -433,7 +709,9 @@ Javascriptにはオブジェクト型とプリミティブ型の2種類がある
 
 なので、`this`の値が`undefined`の場合、メソッド内でも`undefined`のままらしい。
 
-とりあえずサンプル
+クラスの外はStrictモードではないので、自動ボクシングが行われる。
+
+自動ボクシングの際、最初の`this`が`undefined`の場合、`this`にはグローバルオブジェクトが入ります。
 
 ```javascript
 function Animal() { }
@@ -453,5 +731,103 @@ speak(); // グローバルオブジェクト
 let eat = Animal.eat;
 eat(); // グローバルオブジェクト
 ```
+
+クラスの外でも明示的にStrictモードを使用している場合は、自動ボクシングが行われないので`undefined`のまま。
+
+```javascript
+'use strict';
+
+function Animal() { }
+
+Animal.prototype.speak = function() {
+  return this;
+}
+
+Animal.eat = function() {
+  return this;
+}
+
+let obj = new Animal();
+let speak = obj.speak;
+speak(); // undefined
+
+let eat = Animal.eat;
+eat(); // undefined
+```
+
+### インスタンスのプロパティ
+
+> インスタンスのプロパティはクラスのメソッドの中で定義しなければなりません
+
+```javascript
+class Rectangle {
+  constructor(height, width) {    
+    this.height = height;
+    this.width = width;
+  }
+}
+```
+
+ということは、後からプロパティーを追加できないってことだろうか？
+
+```javascript
+class Rectangle {}
+
+let obj = new Rectangle;
+obj.height = 10;
+obj.width = 20;
+console.log(obj); // Rectangle {height: 10, width: 20}
+```
+
+...できるじゃん。これはどういうことなんだ？
+
+クラスのインスタンスのプロパティはメソッド内で定義しないとSyntaxErrorになっちゃいますよってことかな...。
+
+`this`の話に付随するところがありそう。
+
+> クラスに付随する静的なプロパティやプロトタイプのプロパティは、クラス本体の宣言の外で定義しなければなりません
+
+```javascript
+class Rectangle {}
+Rectangle.staticWidth = 20;
+Rectangle.prototype.prototypeWidth = 25;
+```
+
+まぁこれもそうだろうなって感じ。
+
+ただプロトタイプのプロパティってなんだろう...。
+
+> プロトタイプは JavaScript オブジェクトが機能を互いに継承するメカニズムです。
+
+へぇ〜
+
+```javascript
+Object.prototype.width = 50;
+class Rectangle {}
+Rectangle.width; // 50
+Rectangle.prototype.width; // 50
+Rectangle.prototype.height = 100;
+Object.height; // undefined
+Object.prototype.height = 200;
+Rectangle.height; //200
+Rectangle.prototype.height; // 100
+```
+
+なんとなくわかったけど、継承元の静的なプロトタイププロパティが継承先の静的なプロパティやプロトタイププロパティとして使えるんだね。
+
+で、もちろん上書きができるけど、プロトタイププロパティはそのインスタンスのプロパティには影響しないのか。
+
+```javascript
+class Object{
+    constructor() {    
+        this.prototype.height = 10;
+    }
+}
+class Rectangle {}
+let obj = new Rectangle;
+obj.width; // undefined
+```
+
+インスタンスプロパティには使えないっぽい。
 
 一旦おしまい。続きはまた今度。
