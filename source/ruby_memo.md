@@ -9,7 +9,7 @@ excerpt: 雑に書きなぐっているだけ
 
 - 結果となる値が falsey な値の場合は条件式の結果にかかわらず除外される。
 
-```rb
+```ruby
 p [*1..10].filter_map { _1 if _1.even? }
 #=> [2, 4, 6, 8, 10]
 
@@ -25,7 +25,7 @@ p [*1..10].filter_map { false if _1.even? }
 - パターンマッチで使う変数をそれ以前に使っていた場合は上書きされる
 - パターンマッチ文の外に出てもパターンマッチで代入された値は維持される
 
-```rb
+```ruby
 a = 'Hello'
 
 case [1, 2, 3]
@@ -46,7 +46,7 @@ p a # 1
 
 - ネストして使えない
 
-```rb
+```ruby
 [1,2,3].tap { p _1.tap { p _1 } }
 # SyntaxError ((irb):1: numbered parameter is already used in)
 # (irb):1: outer block here
@@ -66,7 +66,7 @@ p a # 1
 
 - インスタンス変数やプライベートメソッドを無理やり呼び出せる
 
-```rb
+```ruby
 class Sample
   def initialize
     @hello = 'Hello'
@@ -89,7 +89,7 @@ p Sample.new.instance_eval('@hello')
 
 - 差異わかりますか？
 
-```rb
+```ruby
 class Sample
   def call_protected_method(other)
     other.protected_method
