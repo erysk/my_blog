@@ -89,6 +89,9 @@ p Sample.new.instance_eval('ruby')
 #=> "exciting"
 p Sample.new.instance_eval('@hello')
 #=> "Hello"
+
+# インスタンス変数の参照に関しては instance_variable_get の方がオススメ。デバッグ目的ならどっちでもよさそう。
+p Sample.new.instance_variable_get(:@hello)
 ```
 
 ### protected と private
