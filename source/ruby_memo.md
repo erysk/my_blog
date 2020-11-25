@@ -6,7 +6,9 @@ excerpt: 雑に書きなぐっているだけ
 ---
 
 ### filter_map
+
 - 結果となる値が falsey な値の場合は条件式の結果にかかわらず除外される。
+
 ```rb
 p [*1..10].filter_map { _1 if _1.even? }
 #=> [2, 4, 6, 8, 10]
@@ -19,10 +21,13 @@ p [*1..10].filter_map { false if _1.even? }
 ```
 
 ### case in
+
 - パターンマッチで使う変数をそれ以前に使っていた場合は上書きされる
 - パターンマッチ文の外に出てもパターンマッチで代入された値は維持される
+
 ```rb
 a = 'Hello'
+
 case [1, 2, 3]
 in a
   p a # [1, 2, 3]
@@ -38,7 +43,10 @@ p a # 1
 ```
 
 ### numbered parameter
+
 - ネストして使えない
+
+```rb
 [1,2,3].tap { p _1.tap { p _1 } }
 # SyntaxError ((irb):1: numbered parameter is already used in)
 # (irb):1: outer block here
@@ -55,7 +63,9 @@ p a # 1
 ```
 
 ### instance_eval
+
 - インスタンス変数やプライベートメソッドを無理やり呼び出せる
+
 ```rb
 class Sample
   def initialize
@@ -76,7 +86,9 @@ p Sample.new.instance_eval('@hello')
 ```
 
 ### protected と private
+
 - 差異わかりますか？
+
 ```rb
 class Sample
   def call_protected_method(other)
