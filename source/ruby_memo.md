@@ -8,7 +8,7 @@ excerpt: 雑に書きなぐっているだけ
 記事内のコードの実行にはRuby2.7以上が必要。
 
 ```ruby
-`ruby -v`
+p `ruby -v`
 ```
 
 ### filter_map
