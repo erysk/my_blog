@@ -6,7 +6,7 @@ tags: ["Ruby"]
 
 MeCab
 
-```zsh
+```shell
 brew install mecab mecab-ipadic
 ghq get git@github.com:neologd/mecab-ipadic-neologd.git
 cd ~/.ghq/github/neologd/mecab-ipadic-neologd
@@ -19,15 +19,15 @@ vi /usr/local/etc/mecabrc
 + dicdir =  /usr/local/lib/mecab/dic/mecab-ipadic-neologd
 ```
 
-```zsh
+```shell
 bundle init
 ```
 
-```Gemfile
+```ruby
 gem 'mecab'
 ```
 
-```zsh
+```shell
 bundle install
 ```
 
