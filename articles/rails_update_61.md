@@ -1,5 +1,6 @@
 ---
 title: 【Rails6.1】ActiveRecord::Relationメソッドでの安全でない生SQLの利用（非推奨）を削除への対応
+date: 2021-12-10
 tags: ["Rails"]
 excerpt: TracePoint便利
 ---
