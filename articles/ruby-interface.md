@@ -1,7 +1,7 @@
 ---
 title: RubyでJavaのインターフェースっぽいことをする
 date: 2022-3-7
-tags: ["Ruby"]
+tags: ["Ruby", "joke"]
 ---
 
 # RubyでJavaのインターフェースっぽいことをする
