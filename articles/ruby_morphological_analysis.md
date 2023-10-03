@@ -125,7 +125,7 @@ end
 gem install fasttext
 ```
 
-[学習済みモデルのバイナリファイル](https://fasttext.cc/docs/en/crawl-vectors.html#models)を[ダウンロード]((https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.jv.300.bin.gz))
+[学習済みモデルのバイナリファイル](https://fasttext.cc/docs/en/crawl-vectors.html#models)を[ダウンロード]((https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.jp.300.bin.gz))
 
 
 ```rb
