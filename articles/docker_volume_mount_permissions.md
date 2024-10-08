@@ -8,6 +8,8 @@ tags: ["Docker"]
 
 Dockerfileでvolume mountするディレクトリをあらかじめ作成しておく
 
+# 詳細
+
 こんな感じのDockerfileがあり
 ```Dockerfile
 FROM ruby:3.3.4-bullseye
